@@ -1,0 +1,378 @@
+<div class="register-container">
+  <div class="register-wrapper">
+    <!-- Header -->
+    <div class="register-header">
+      <div class="logo-section">
+        <img src="assets/images/logo.png" alt="RevlohApp" class="logo" />
+        <h1 class="app-title">RevlohApp</h1>
+      </div>
+      <h2 class="register-title">Create Your Account</h2>
+      <p class="register-subtitle">Join us and start your journey</p>
+    </div>
+
+    <!-- Registration Form -->
+    <p-card styleClass="register-card">
+      <!-- Progress Steps -->
+      <div class="steps-container">
+        <p-steps 
+          [model]="steps" 
+          [activeIndex]="currentStep()" 
+          [readonly]="true"
+          styleClass="custom-steps">
+        </p-steps>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Step 1: Personal Information -->
+        @if (currentStep() === 0) {
+          <div class="step-content" [@slideIn]>
+            <h3 class="step-title">Personal Information</h3>
+            
+            <div class="form-row">
+              <!-- First Name -->
+              <div class="form-field">
+                <label for="firstName" class="field-label">First Name *</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-user"></i>
+                  <input
+                    id="firstName"
+                    type="text"
+                    pInputText
+                    formControlName="firstName"
+                    placeholder="Enter your first name"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('firstName', 'required') || hasError('firstName', 'invalidName')"
+                  />
+                </span>
+                @if (hasError('firstName', 'required') || hasError('firstName', 'invalidName')) {
+                  <small class="error-message">{{ getErrorMessage('firstName') }}</small>
+                }
+              </div>
+
+              <!-- Last Name -->
+              <div class="form-field">
+                <label for="lastName" class="field-label">Last Name *</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-user"></i>
+                  <input
+                    id="lastName"
+                    type="text"
+                    pInputText
+                    formControlName="lastName"
+                    placeholder="Enter your last name"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('lastName', 'required') || hasError('lastName', 'invalidName')"
+                  />
+                </span>
+                @if (hasError('lastName', 'required') || hasError('lastName', 'invalidName')) {
+                  <small class="error-message">{{ getErrorMessage('lastName') }}</small>
+                }
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Second Last Name -->
+              <div class="form-field">
+                <label for="secondLastName" class="field-label">Second Last Name *</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-user"></i>
+                  <input
+                    id="secondLastName"
+                    type="text"
+                    pInputText
+                    formControlName="secondLastName"
+                    placeholder="Enter your second last name"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('secondLastName', 'required') || hasError('secondLastName', 'invalidName')"
+                  />
+                </span>
+                @if (hasError('secondLastName', 'required') || hasError('secondLastName', 'invalidName')) {
+                  <small class="error-message">{{ getErrorMessage('secondLastName') }}</small>
+                }
+              </div>
+
+              <!-- Middle Name -->
+              <div class="form-field">
+                <label for="middleName" class="field-label">Middle Name</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-user"></i>
+                  <input
+                    id="middleName"
+                    type="text"
+                    pInputText
+                    formControlName="middleName"
+                    placeholder="Enter your middle name (optional)"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('middleName', 'invalidName')"
+                  />
+                </span>
+                @if (hasError('middleName', 'invalidName')) {
+                  <small class="error-message">{{ getErrorMessage('middleName') }}</small>
+                }
+              </div>
+            </div>
+
+            <div class="form-row">
+              <!-- Identification Number -->
+              <div class="form-field">
+                <label for="identificationNumber" class="field-label">Identification Number *</label>
+                <span class="p-input-icon-left p-input-icon-right">
+                  <i class="pi pi-id-card"></i>
+                  <input
+                    id="identificationNumber"
+                    type="text"
+                    pInputText
+                    formControlName="identificationNumber"
+                    placeholder="Enter your cedula"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('identificationNumber', 'required') || hasError('identificationNumber', 'invalidId') || hasError('identificationNumber', 'idTaken')"
+                  />
+                  @if (idChecking()) {
+                    <i class="pi pi-spin pi-spinner"></i>
+                  }
+                </span>
+                @if (hasError('identificationNumber', 'required') || hasError('identificationNumber', 'invalidId') || hasError('identificationNumber', 'idTaken')) {
+                  <small class="error-message">{{ getErrorMessage('identificationNumber') }}</small>
+                }
+              </div>
+
+              <!-- Birth Date -->
+              <div class="form-field">
+                <label for="birthDate" class="field-label">Birth Date *</label>
+                <p-calendar
+                  id="birthDate"
+                  formControlName="birthDate"
+                  placeholder="Select your birth date"
+                  styleClass="w-full"
+                  inputStyleClass="w-full"
+                  [showIcon]="true"
+                  [maxDate]="getMaxBirthDate()"
+                  [minDate]="getMinBirthDate()"
+                  dateFormat="dd/mm/yy"
+                  [yearNavigator]="true"
+                  [monthNavigator]="true"
+                  yearRange="1904:2006"
+                  [class.ng-invalid]="hasError('birthDate', 'required') || hasError('birthDate', 'futureDate') || hasError('birthDate', 'underAge')"
+                ></p-calendar>
+                @if (hasError('birthDate', 'required') || hasError('birthDate', 'futureDate') || hasError('birthDate', 'underAge')) {
+                  <small class="error-message">{{ getErrorMessage('birthDate') }}</small>
+                }
+              </div>
+            </div>
+
+            <!-- Gender -->
+            <div class="form-field">
+              <label for="gender" class="field-label">Gender</label>
+              <p-dropdown
+                id="gender"
+                formControlName="gender"
+                [options]="genderOptions"
+                placeholder="Select your gender (optional)"
+                styleClass="w-full"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+        }
+
+        <!-- Step 2: Contact Details -->
+        @if (currentStep() === 1) {
+          <div class="step-content" [@slideIn]>
+            <h3 class="step-title">Contact Details</h3>
+            
+            <!-- Email -->
+            <div class="form-field">
+              <label for="email" class="field-label">Email Address *</label>
+              <span class="p-input-icon-left p-input-icon-right">
+                <i class="pi pi-envelope"></i>
+                <input
+                  id="email"
+                  type="email"
+                  pInputText
+                  formControlName="email"
+                  placeholder="Enter your email address"
+                  class="w-full"
+                  [class.ng-invalid]="hasError('email', 'required') || hasError('email', 'invalidEmail') || hasError('email', 'emailTaken')"
+                />
+                @if (emailChecking()) {
+                  <i class="pi pi-spin pi-spinner"></i>
+                }
+              </span>
+              @if (hasError('email', 'required') || hasError('email', 'invalidEmail') || hasError('email', 'emailTaken')) {
+                <small class="error-message">{{ getErrorMessage('email') }}</small>
+              }
+            </div>
+
+            <div class="form-row">
+              <!-- Phone Number -->
+              <div class="form-field">
+                <label for="phoneNumber" class="field-label">Phone Number</label>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-phone"></i>
+                  <input
+                    id="phoneNumber"
+                    type="tel"
+                    pInputText
+                    formControlName="phoneNumber"
+                    placeholder="Enter your phone number (optional)"
+                    class="w-full"
+                    [class.ng-invalid]="hasError('phoneNumber', 'invalidPhone')"
+                  />
+                </span>
+                @if (hasError('phoneNumber', 'invalidPhone')) {
+                  <small class="error-message">{{ getErrorMessage('phoneNumber') }}</small>
+                }
+              </div>
+
+              <!-- Phone Type -->
+              <div class="form-field">
+                <label for="phoneTypeName" class="field-label">Phone Type</label>
+                <p-dropdown
+                  id="phoneTypeName"
+                  formControlName="phoneTypeName"
+                  [options]="phoneTypeOptions"
+                  placeholder="Select phone type"
+                  styleClass="w-full"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Step 3: Account Setup -->
+        @if (currentStep() === 2) {
+          <div class="step-content" [@slideIn]>
+            <h3 class="step-title">Account Setup</h3>
+            
+            <!-- Password -->
+            <div class="form-field">
+              <label for="password" class="field-label">Password *</label>
+              <span class="p-input-icon-left">
+                <i class="pi pi-lock"></i>
+                <p-password
+                  id="password"
+                  formControlName="password"
+                  placeholder="Create a strong password"
+                  styleClass="w-full"
+                  inputStyleClass="w-full"
+                  [toggleMask]="true"
+                  [feedback]="true"
+                  [class.ng-invalid]="hasError('password', 'required') || hasError('password', 'weakPassword')"
+                ></p-password>
+              </span>
+              @if (hasError('password', 'required') || hasError('password', 'weakPassword')) {
+                <small class="error-message">{{ getErrorMessage('password') }}</small>
+              }
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-field">
+              <label for="confirmPassword" class="field-label">Confirm Password *</label>
+              <span class="p-input-icon-left">
+                <i class="pi pi-lock"></i>
+                <p-password
+                  id="confirmPassword"
+                  formControlName="confirmPassword"
+                  placeholder="Confirm your password"
+                  styleClass="w-full"
+                  inputStyleClass="w-full"
+                  [toggleMask]="true"
+                  [feedback]="false"
+                  [class.ng-invalid]="hasError('confirmPassword', 'required') || registerForm.hasError('passwordMismatch')"
+                ></p-password>
+              </span>
+              @if (hasError('confirmPassword', 'required') || registerForm.hasError('passwordMismatch')) {
+                <small class="error-message">{{ getErrorMessage('confirmPassword') }}</small>
+              }
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-field">
+              <div class="terms-section">
+                <p-checkbox
+                  id="acceptTerms"
+                  formControlName="acceptTerms"
+                  [binary]="true"
+                  (onChange)="onTermsChange($event.checked)"
+                  [class.ng-invalid]="hasError('acceptTerms', 'required')"
+                ></p-checkbox>
+                <label for="acceptTerms" class="terms-label">
+                  I agree to the 
+                  <a href="#" (click)="openTermsOfService()" class="terms-link">Terms & Conditions</a> 
+                  and 
+                  <a href="#" (click)="openPrivacyPolicy()" class="terms-link">Privacy Policy</a> *
+                </label>
+              </div>
+              @if (hasError('acceptTerms', 'required')) {
+                <small class="error-message">{{ getErrorMessage('acceptTerms') }}</small>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Loading State -->
+        @if (loading()) {
+          <div class="loading-overlay">
+            <p-progressSpinner styleClass="w-4rem h-4rem"></p-progressSpinner>
+            <p class="loading-text">Creating your account...</p>
+          </div>
+        }
+
+        <!-- Error Message -->
+        @if (registerForm.invalid && registerForm.touched) {
+          <p-message 
+            severity="error" 
+            text="Please correct the errors above before proceeding"
+            styleClass="w-full mb-3">
+          </p-message>
+        }
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          @if (currentStep() > 0) {
+            <p-button
+              type="button"
+              label="Previous"
+              icon="pi pi-chevron-left"
+              severity="secondary"
+              [outlined]="true"
+              (onClick)="previousStep()"
+              [disabled]="loading()"
+            ></p-button>
+          }
+
+          <div class="flex-1"></div>
+
+          @if (currentStep() < steps.length - 1) {
+            <p-button
+              type="button"
+              label="Next"
+              icon="pi pi-chevron-right"
+              iconPos="right"
+              (onClick)="nextStep()"
+              [disabled]="loading()"
+            ></p-button>
+          } @else {
+            <p-button
+              type="submit"
+              label="Create Account"
+              icon="pi pi-user-plus"
+              iconPos="right"
+              [loading]="loading()"
+              [disabled]="!registerForm.valid || loading()"
+            ></p-button>
+          }
+        </div>
+      </form>
+    </p-card>
+
+    <!-- Login Link -->
+    <div class="login-link-section">
+      <p class="login-text">
+        Already have an account? 
+        <a (click)="goToLogin()" class="login-link">Sign in here</a>
+      </p>
+    </div>
+  </div>
+</div>
