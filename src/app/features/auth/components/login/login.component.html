@@ -1,161 +1,156 @@
 <div class="login-container">
   <div class="login-wrapper">
-    <!-- Header -->
-    <div class="login-header">
-      <div class="logo-section">
-        <img src="assets/images/logo.png" alt="RevlohApp" class="logo" />
-        <h1 class="app-title">RevlohApp</h1>
-      </div>
-      <h2 class="login-title">Welcome Back</h2>
-      <p class="login-subtitle">Sign in to your account to continue</p>
-    </div>
-
-    <!-- Login Form -->
-    <p-card styleClass="login-card">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="onKeyDown($event)">
-        <!-- Email Field -->
-        <div class="form-field">
-          <label for="email" class="field-label">Email Address</label>
-          <span class="p-input-icon-left">
-            <i class="pi pi-envelope"></i>
-            <input
-              id="email"
-              type="email"
-              pInputText
-              formControlName="email"
-              placeholder="Enter your email"
-              class="w-full"
-              [class.ng-invalid]="hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')"
-              autocomplete="username"
-              autofocus
-            />
-          </span>
-          @if (hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')) {
-            <small class="error-message">{{ getErrorMessage('email') }}</small>
-          }
+    <!-- Left Panel - Login Form -->
+    <div class="login-panel">
+      <div class="login-content">
+        <!-- Header -->
+        <div class="login-header">
+          <h1>RevlohApp</h1>
+          <p class="subtitle">Inicia sesión en tu cuenta</p>
         </div>
 
-        <!-- Password Field -->
-        <div class="form-field">
-          <label for="password" class="field-label">Password</label>
-          <span class="p-input-icon-left">
-            <i class="pi pi-lock"></i>
-            <p-password
-              id="password"
-              formControlName="password"
-              placeholder="Enter your password"
-              styleClass="w-full"
-              inputStyleClass="w-full"
-              [toggleMask]="true"
-              [feedback]="false"
-              autocomplete="current-password"
-              [class.ng-invalid]="hasError('password', 'required') || hasError('password', 'minlength')"
-            ></p-password>
-          </span>
-          @if (hasError('password', 'required') || hasError('password', 'minlength')) {
-            <small class="error-message">{{ getErrorMessage('password') }}</small>
-          }
-        </div>
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Email Field -->
+          <div class="field">
+            <div class="input-wrapper">
+              <i class="pi pi-user input-icon"></i>
+              <input
+                id="email"
+                type="email"
+                pInputText
+                formControlName="email"
+                placeholder="Email"
+                [class.p-invalid]="hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')"
+                (keydown)="onKeyDown($event)"
+              />
+            </div>
+            @if (hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')) {
+              <small class="p-error">{{ getErrorMessage('email') }}</small>
+            }
+          </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="form-options">
-          <div class="remember-me">
+          <!-- Password Field -->
+          <div class="field">
+            <div class="input-wrapper">
+              <i class="pi pi-lock input-icon"></i>
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                pInputText
+                formControlName="password"
+                placeholder="Contraseña"
+                [class.p-invalid]="hasError('password', 'required')"
+                (keydown)="onKeyDown($event)"
+              />
+              <i 
+                [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                class="password-toggle"
+                (click)="togglePasswordVisibility()">
+              </i>
+            </div>
+            @if (hasError('password', 'required')) {
+              <small class="p-error">{{ getErrorMessage('password') }}</small>
+            }
+          </div>
+
+          <!-- Remember Me -->
+          <div class="field-checkbox">
             <p-checkbox
+              id="rememberMe"
               formControlName="rememberMe"
               [binary]="true"
-              inputId="rememberMe"
-              (onChange)="onRememberMeChange($event.checked)"
-            ></p-checkbox>
-            <label for="rememberMe" class="remember-label">Remember me</label>
+              (onChange)="onRememberMeChange($event.checked)">
+            </p-checkbox>
+            <label for="rememberMe">Recordarme</label>
           </div>
-          
-          <button
-            type="button"
-            class="forgot-password-link"
-            (click)="goToForgotPassword()"
-          >
-            Forgot Password?
-          </button>
+
+          <!-- Login Button -->
+          <div class="login-actions">
+            <button
+              type="submit"
+              class="login-button"
+              [disabled]="loading() || loginForm.invalid"
+            >
+              @if (loading()) {
+                <i class="pi pi-spin pi-spinner"></i>
+                Iniciando sesión...
+              } @else {
+                Ingresar
+              }
+            </button>
+          </div>
+        </form>
+
+        <!-- Register Link -->
+        <div class="register-link-section">
+          <p class="register-text">
+            ¿No tienes cuenta? 
+            <a routerLink="/register" class="register-link">Regístrate aquí</a>
+          </p>
         </div>
 
-        <!-- Submit Button -->
-        <p-button
-          type="submit"
-          label="Sign In"
-          styleClass="w-full login-button"
-          [loading]="loading()"
-          [disabled]="loginForm.invalid || loading()"
-          icon="pi pi-sign-in"
-        ></p-button>
-      </form>
+        <!-- Demo Buttons (only in development) -->
+        @if (!isProduction) {
+          <div class="demo-section">
+            <p class="demo-title">Demo Login:</p>
+            <div class="demo-buttons">
+              <button type="button" class="demo-button" (click)="demoLogin('admin')">Admin</button>
+              <button type="button" class="demo-button" (click)="demoLogin('staff')">Staff</button>
+              <button type="button" class="demo-button" (click)="demoLogin('visitor')">Visitor</button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
 
-      <!-- Divider -->
-      <p-divider align="center">
-        <span class="divider-text">or</span>
-      </p-divider>
-
-      <!-- Demo Login Buttons (Development Only) -->
-      @if (!isProduction) {
-        <div class="demo-login-section">
-          <p class="demo-title">Demo Accounts</p>
-          <div class="demo-buttons">
-            <p-button
-              label="Admin Demo"
-              styleClass="demo-button admin-demo"
-              [text]="true"
-              icon="pi pi-shield"
-              (onClick)="demoLogin('admin')"
-              [disabled]="loading()"
-            ></p-button>
-            
-            <p-button
-              label="Staff Demo"
-              styleClass="demo-button staff-demo"
-              [text]="true"
-              icon="pi pi-users"
-              (onClick)="demoLogin('staff')"
-              [disabled]="loading()"
-            ></p-button>
-            
-            <p-button
-              label="Visitor Demo"
-              styleClass="demo-button visitor-demo"
-              [text]="true"
-              icon="pi pi-user"
-              (onClick)="demoLogin('visitor')"
-              [disabled]="loading()"
-            ></p-button>
+    <!-- Right Panel - Branding -->
+    <div class="brand-panel">
+      <div class="brand-content">
+        <!-- Upper Left Avatar -->
+        <div class="avatar-section avatar-top-left">
+          <div class="avatar-container avatar-small">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBS86q9Ls1CxUcX1Tgy5mDIkM2d2S5N3XKig&s"
+              alt="Team Member 1"
+              class="avatar-image"
+            />
+          </div>
+          <div class="brand-icon">
+            <i class="pi pi-star"></i>
           </div>
         </div>
-      }
-    </p-card>
 
-    <!-- Register Link -->
-    <div class="register-section">
-      <p class="register-text">
-        Don't have an account?
-        <button
-          type="button"
-          class="register-link"
-          (click)="goToRegister()"
-        >
-          Sign up here
-        </button>
-      </p>
+        <!-- Center Main Avatar -->
+        <div class="brand-card">
+          <div class="avatar-section avatar-center">
+            <div class="avatar-container">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcDPlGbXeuh7tvUHQKOCPWQgsP6HAO8yOtog&s"
+                alt="Professional"
+                class="avatar-image"
+              />
+            </div>
+            <div class="brand-icon">
+              <i class="pi pi-check-circle"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Right Avatar -->
+        <div class="avatar-section avatar-bottom-right">
+          <div class="avatar-container avatar-small">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQymK8PbDRUdroV7ssio030kZl4TBks-0N25Q&s"
+              alt="Team Member 2"
+              class="avatar-image"
+            />
+          </div>
+          <div class="brand-icon">
+            <i class="pi pi-heart"></i>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!-- Footer -->
-    <div class="login-footer">
-      <p class="copyright">
-        © {{ getCurrentYear() }} RevlohApp. All rights reserved.
-      </p>
-    </div>
-  </div>
-
-  <!-- Background Decoration -->
-  <div class="login-background">
-    <div class="bg-decoration bg-decoration-1"></div>
-    <div class="bg-decoration bg-decoration-2"></div>
-    <div class="bg-decoration bg-decoration-3"></div>
   </div>
 </div>

@@ -211,11 +211,6 @@ export class LoginComponent implements OnInit {
     if (control.hasError('email') || control.hasError('invalidEmail')) {
       return 'Please enter a valid email address';
     }
-    if (control.hasError('minlength')) {
-      const minLength = control.errors['minlength'].requiredLength;
-      return `Password must be at least ${minLength} characters long`;
-    }
-
     return 'Invalid input';
   }
 
