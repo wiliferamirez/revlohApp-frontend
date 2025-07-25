@@ -1,0 +1,28 @@
+<aside class="app-sidebar" [class.sidebar-visible]="visible()">
+  <div class="sidebar-content">
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <p-panelMenu 
+        [model]="filteredMenuItems()" 
+        styleClass="sidebar-menu">
+      </p-panelMenu>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <div class="app-version">
+        <span class="version-text">v{{ getAppVersion() }}</span>
+      </div>
+      
+      <p-button 
+        icon="pi pi-question-circle"
+        [text]="true"
+        [rounded]="true"
+        class="help-btn"
+        pTooltip="Help & Support"
+        tooltipPosition="right"
+        (onClick)="openHelp()">
+      </p-button>
+    </div>
+  </div>
+</aside>
