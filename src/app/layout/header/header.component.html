@@ -1,0 +1,69 @@
+<header class="app-header">
+  <div class="header-left">
+    <!-- Menu Toggle Button -->
+    <p-button 
+      icon="pi pi-bars"
+      [text]="true"
+      [rounded]="true"
+      class="menu-toggle-btn"
+      (onClick)="onMenuToggle()"
+      pTooltip="Toggle Menu"
+      tooltipPosition="bottom">
+    </p-button>
+
+    <!-- Logo and App Name -->
+    <div class="app-logo" routerLink="/dashboard">
+      <img src="assets/images/logo.png" alt="RevlohApp" class="logo-image" />
+      <span class="app-name">RevlohApp</span>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <!-- Breadcrumb or Page Title could go here -->
+    <h2 class="page-title">{{ getPageTitle() }}</h2>
+  </div>
+
+  <div class="header-right">
+    <!-- Notifications -->
+    <div class="header-item notification-container">
+      <p-button 
+        icon="pi pi-bell"
+        [text]="true"
+        [rounded]="true"
+        class="notification-btn"
+        (onClick)="toggleNotifications()"
+        pTooltip="Notifications"
+        tooltipPosition="bottom">
+      </p-button>
+      @if (notificationCount() > 0) {
+        <span class="p-badge p-badge-danger notification-badge">{{ notificationCount() }}</span>
+      }
+    </div>
+
+    <!-- User Menu -->
+    <div class="header-item user-menu">
+      @if (user(); as currentUser) {
+        <div class="user-info" (click)="toggleUserMenu($event)">
+          <p-avatar 
+            [label]="getUserInitials(currentUser)"
+            styleClass="user-avatar"
+            shape="circle"
+            size="normal">
+          </p-avatar>
+          <div class="user-details">
+            <span class="user-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</span>
+            <span class="user-role">{{ currentUser.personType }}</span>
+          </div>
+          <i class="pi pi-chevron-down user-menu-icon"></i>
+        </div>
+      }
+      
+      <p-menu 
+        #userMenuRef
+        [model]="userMenuItems()"
+        [popup]="true"
+        styleClass="user-dropdown-menu">
+      </p-menu>
+    </div>
+  </div>
+</header>
