@@ -1,0 +1,161 @@
+<div class="login-container">
+  <div class="login-wrapper">
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo-section">
+        <img src="assets/images/logo.png" alt="RevlohApp" class="logo" />
+        <h1 class="app-title">RevlohApp</h1>
+      </div>
+      <h2 class="login-title">Welcome Back</h2>
+      <p class="login-subtitle">Sign in to your account to continue</p>
+    </div>
+
+    <!-- Login Form -->
+    <p-card styleClass="login-card">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="onKeyDown($event)">
+        <!-- Email Field -->
+        <div class="form-field">
+          <label for="email" class="field-label">Email Address</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-envelope"></i>
+            <input
+              id="email"
+              type="email"
+              pInputText
+              formControlName="email"
+              placeholder="Enter your email"
+              class="w-full"
+              [class.ng-invalid]="hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')"
+              autocomplete="username"
+              autofocus
+            />
+          </span>
+          @if (hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'invalidEmail')) {
+            <small class="error-message">{{ getErrorMessage('email') }}</small>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-field">
+          <label for="password" class="field-label">Password</label>
+          <span class="p-input-icon-left">
+            <i class="pi pi-lock"></i>
+            <p-password
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              styleClass="w-full"
+              inputStyleClass="w-full"
+              [toggleMask]="true"
+              [feedback]="false"
+              autocomplete="current-password"
+              [class.ng-invalid]="hasError('password', 'required') || hasError('password', 'minlength')"
+            ></p-password>
+          </span>
+          @if (hasError('password', 'required') || hasError('password', 'minlength')) {
+            <small class="error-message">{{ getErrorMessage('password') }}</small>
+          }
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="form-options">
+          <div class="remember-me">
+            <p-checkbox
+              formControlName="rememberMe"
+              [binary]="true"
+              inputId="rememberMe"
+              (onChange)="onRememberMeChange($event.checked)"
+            ></p-checkbox>
+            <label for="rememberMe" class="remember-label">Remember me</label>
+          </div>
+          
+          <button
+            type="button"
+            class="forgot-password-link"
+            (click)="goToForgotPassword()"
+          >
+            Forgot Password?
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <p-button
+          type="submit"
+          label="Sign In"
+          styleClass="w-full login-button"
+          [loading]="loading()"
+          [disabled]="loginForm.invalid || loading()"
+          icon="pi pi-sign-in"
+        ></p-button>
+      </form>
+
+      <!-- Divider -->
+      <p-divider align="center">
+        <span class="divider-text">or</span>
+      </p-divider>
+
+      <!-- Demo Login Buttons (Development Only) -->
+      @if (!isProduction) {
+        <div class="demo-login-section">
+          <p class="demo-title">Demo Accounts</p>
+          <div class="demo-buttons">
+            <p-button
+              label="Admin Demo"
+              styleClass="demo-button admin-demo"
+              [text]="true"
+              icon="pi pi-shield"
+              (onClick)="demoLogin('admin')"
+              [disabled]="loading()"
+            ></p-button>
+            
+            <p-button
+              label="Staff Demo"
+              styleClass="demo-button staff-demo"
+              [text]="true"
+              icon="pi pi-users"
+              (onClick)="demoLogin('staff')"
+              [disabled]="loading()"
+            ></p-button>
+            
+            <p-button
+              label="Visitor Demo"
+              styleClass="demo-button visitor-demo"
+              [text]="true"
+              icon="pi pi-user"
+              (onClick)="demoLogin('visitor')"
+              [disabled]="loading()"
+            ></p-button>
+          </div>
+        </div>
+      }
+    </p-card>
+
+    <!-- Register Link -->
+    <div class="register-section">
+      <p class="register-text">
+        Don't have an account?
+        <button
+          type="button"
+          class="register-link"
+          (click)="goToRegister()"
+        >
+          Sign up here
+        </button>
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p class="copyright">
+        © {{ getCurrentYear() }} RevlohApp. All rights reserved.
+      </p>
+    </div>
+  </div>
+
+  <!-- Background Decoration -->
+  <div class="login-background">
+    <div class="bg-decoration bg-decoration-1"></div>
+    <div class="bg-decoration bg-decoration-2"></div>
+    <div class="bg-decoration bg-decoration-3"></div>
+  </div>
+</div>
