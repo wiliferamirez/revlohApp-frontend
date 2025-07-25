@@ -1,0 +1,50 @@
+<div class="layout-wrapper">
+  <!-- Loading Bar -->
+  @if (isLoading()) {
+    <p-progressBar 
+      mode="indeterminate" 
+      [style]="{ height: '3px', position: 'fixed', top: '0', left: '0', right: '0', zIndex: '9999' }">
+    </p-progressBar>
+  }
+
+  <!-- Main Layout -->
+  <div class="layout-main" [class.layout-sidebar-active]="sidebarVisible()">
+    <!-- Header -->
+    <app-header 
+      (menuToggle)="toggleSidebar()"
+      [sidebarVisible]="sidebarVisible()">
+    </app-header>
+
+    <!-- Sidebar -->
+    <app-sidebar 
+      [visible]="sidebarVisible()"
+      (visibilityChange)="onSidebarVisibilityChange($event)">
+    </app-sidebar>
+
+    <!-- Main Content Area -->
+    <div class="layout-content">
+      <main class="content-wrapper">
+        <router-outlet></router-outlet>
+      </main>
+      
+      <!-- Footer -->
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <p-toast 
+    position="top-right" 
+    [life]="5000"
+    [showTransformOptions]="'translateX(100%)'"
+    [hideTransformOptions]="'translateX(100%)'">
+  </p-toast>
+
+  <!-- Mobile Sidebar Overlay -->
+  @if (isMobile() && sidebarVisible()) {
+    <div 
+      class="sidebar-overlay"
+      (click)="closeSidebar()">
+    </div>
+  }
+</div>

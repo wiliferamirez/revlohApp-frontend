@@ -1,0 +1,76 @@
+.layout-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-main {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.layout-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.layout-sidebar-active .layout-content {
+  margin-left: 250px;
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 1rem;
+  background-color: var(--surface-ground);
+  min-height: calc(100vh - 120px);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .layout-sidebar-active .layout-content {
+    margin-left: 0;
+  }
+  
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+}
+
+/* Dark theme support */
+:host-context(.dark-theme) .content-wrapper {
+  background-color: var(--surface-ground);
+}
+
+/* Loading bar styling */
+:host ::ng-deep .p-progressbar {
+  border-radius: 0;
+}
+
+:host ::ng-deep .p-progressbar .p-progressbar-value {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Toast customization */
+:host ::ng-deep .p-toast {
+  z-index: 9998;
+}
+
+:host ::ng-deep .p-toast .p-toast-message {
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
