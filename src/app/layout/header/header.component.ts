@@ -7,7 +7,6 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
-import { BadgeDirective } from 'primeng/badge';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuItem } from 'primeng/api';
 
@@ -24,7 +23,6 @@ import { NotificationService } from '../../core/services/notification.service';
     MenuModule,
     AvatarModule,
     BadgeModule,
-    BadgeDirective,
     TooltipModule
   ],
   templateUrl: './header.component.html',
