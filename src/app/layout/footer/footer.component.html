@@ -1,0 +1,78 @@
+<footer class="app-footer">
+  <div class="footer-content">
+    <!-- Left Section: Copyright and Links -->
+    <div class="footer-left">
+      <div class="copyright">
+        <span class="copyright-text">
+          © {{ getCurrentYear() }} {{ getAppName() }}. All rights reserved.
+        </span>
+      </div>
+      
+      <div class="footer-links">
+        <button 
+          type="button"
+          class="footer-link"
+          (click)="openPrivacyPolicy()"
+          pTooltip="View Privacy Policy">
+          Privacy Policy
+        </button>
+        
+        <span class="link-separator">|</span>
+        
+        <button 
+          type="button"
+          class="footer-link"
+          (click)="openTermsOfService()"
+          pTooltip="View Terms of Service">
+          Terms of Service
+        </button>
+        
+        <span class="link-separator">|</span>
+        
+        <button 
+          type="button"
+          class="footer-link"
+          (click)="openContact()"
+          pTooltip="Contact Support">
+          Contact
+        </button>
+      </div>
+    </div>
+
+    <!-- Center Section: System Status -->
+    <div class="footer-center">
+      <div class="system-status">
+        <i 
+          [class]="getStatusIcon()" 
+          [style.color]="getStatusColor()"
+          class="status-icon">
+        </i>
+        <span class="status-text">{{ getStatusText() }}</span>
+      </div>
+    </div>
+
+    <!-- Right Section: Version and Help -->
+    <div class="footer-right">
+      <div class="version-info">
+        <span class="version-text">v{{ getAppVersion() }}</span>
+      </div>
+      
+      <p-button 
+        icon="pi pi-question-circle"
+        [text]="true"
+        [rounded]="true"
+        class="help-button"
+        (onClick)="openHelp()"
+        pTooltip="Help & Documentation"
+        tooltipPosition="top">
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Debug Information (Development Only) -->
+  @if (!isProduction) {
+    <div class="debug-info">
+      <small class="debug-text">{{ getBuildInfo() }}</small>
+    </div>
+  }
+</footer>

@@ -1,0 +1,223 @@
+.app-footer {
+  background: var(--surface-card);
+  border-top: 1px solid var(--surface-border);
+  padding: 1rem;
+  margin-top: auto;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+}
+
+.copyright-text {
+  font-size: 0.875rem;
+  color: var(--text-color-secondary);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0.25rem 0;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--primary-color-text);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.link-separator {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--surface-ground);
+  border-radius: 20px;
+  border: 1px solid var(--surface-border);
+}
+
+.status-icon {
+  font-size: 0.875rem;
+}
+
+.status-text {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  font-weight: 500;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.version-info {
+  display: flex;
+  align-items: center;
+}
+
+.version-text {
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
+  font-family: 'Courier New', monospace;
+  background: var(--surface-ground);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--surface-border);
+}
+
+.help-button {
+  width: 2rem;
+  height: 2rem;
+}
+
+.debug-info {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--surface-border);
+  text-align: center;
+}
+
+.debug-text {
+  font-size: 0.625rem;
+  color: var(--text-color-secondary);
+  font-family: 'Courier New', monospace;
+  opacity: 0.7;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-left {
+    order: 2;
+    align-items: center;
+  }
+
+  .footer-center {
+    order: 1;
+    flex: none;
+  }
+
+  .footer-right {
+    order: 3;
+    justify-content: center;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-footer {
+    padding: 0.75rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .link-separator {
+    display: none;
+  }
+
+  .system-status {
+    padding: 0.125rem 0.5rem;
+  }
+
+  .status-text {
+    display: none;
+  }
+}
+
+/* Dark theme support */
+:host-context(.dark-theme) .app-footer {
+  background: var(--surface-card);
+  border-top-color: var(--surface-border);
+}
+
+/* Hover effects */
+.system-status {
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+  }
+}
+
+/* Animation for status changes */
+.status-icon {
+  transition: all 0.3s ease;
+}
+
+/* Focus improvements for accessibility */
+.footer-link:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Loading state for status */
+.system-status.loading {
+  .status-icon {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
