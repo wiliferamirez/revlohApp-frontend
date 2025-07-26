@@ -30,49 +30,49 @@ export class AuthApiService extends BaseApiService {
    * Authenticates user with email and password
    */
   login(request: LoginRequest): Observable<LoginResponse> {
-    return this.post<LoginResponse>(this.endpoint, '/Auth/login', request);
+    return this.post<LoginResponse>(this.endpoint, '/auth/login', request);
   }
 
   /**
    * Refreshes access token using refresh token
    */
   refreshToken(request: RefreshTokenRequest): Observable<RefreshTokenResponse> {
-    return this.post<RefreshTokenResponse>(this.endpoint, '/Auth/refresh', request);
+    return this.post<RefreshTokenResponse>(this.endpoint, '/auth/refresh', request);
   }
 
   /**
    * Logs out user by revoking refresh token
    */
   logout(request: LogoutRequest): Observable<LogoutResponse> {
-    return this.post<LogoutResponse>(this.endpoint, '/Auth/logout', request);
+    return this.post<LogoutResponse>(this.endpoint, '/auth/logout', request);
   }
 
   /**
    * Logs out user from all devices
    */
   logoutAll(): Observable<LogoutAllResponse> {
-    return this.post<LogoutAllResponse>(this.endpoint, '/Auth/logout-all', {});
+    return this.post<LogoutAllResponse>(this.endpoint, '/auth/logout-all', {});
   }
 
   /**
    * Changes user's password
    */
   changePassword(request: ChangePasswordRequest): Observable<ChangePasswordResponse> {
-    return this.post<ChangePasswordResponse>(this.endpoint, '/Auth/change-password', request);
+    return this.post<ChangePasswordResponse>(this.endpoint, '/auth/change-password', request);
   }
 
   /**
    * Gets current user information
    */
   getCurrentUser(): Observable<UserInfo> {
-    return this.get<UserInfo>(this.endpoint, '/Auth/me');
+    return this.get<UserInfo>(this.endpoint, '/auth/me');
   }
 
   /**
    * Validates password strength
    */
   validatePassword(request: PasswordValidationRequest): Observable<PasswordValidationResponse> {
-    return this.post<PasswordValidationResponse>(this.endpoint, '/Auth/validate-password', request);
+    return this.post<PasswordValidationResponse>(this.endpoint, '/auth/validate-password', request);
   }
 
   /**

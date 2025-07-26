@@ -17,6 +17,12 @@ export class BaseApiService {
   protected http = inject(HttpClient);
   protected readonly baseUrls = environment.apiUrls;
 
+  constructor() {
+    // Debug: Log the environment being used
+    console.log('🔧 Environment loaded:', environment);
+    console.log('🔧 API URLs:', this.baseUrls);
+  }
+
   /**
    * Builds HTTP headers with common settings
    */

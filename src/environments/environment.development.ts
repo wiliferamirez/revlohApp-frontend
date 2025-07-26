@@ -1,9 +1,9 @@
 export const environment = {
   production: false,
   apiUrls: {
-    auth: 'https://localhost:5224/api/v1',  
-    users: 'https://localhost:5224/api/v1', 
-    security: 'https://localhost:5224/api/v1', 
+    auth: 'http://localhost:5224/api/v1',  
+    users: 'http://localhost:5224/api/v1', 
+    security: 'http://localhost:5224/api/v1', 
   },
   jwt: {
     tokenKey: 'revloh_access_token',
